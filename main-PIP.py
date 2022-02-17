@@ -1,7 +1,7 @@
 import os 
 
 from flask import Flask, jsonify, request, redirect, url_for, render_template
-from flask_sqlalchemy import SQLAlchemy
+
 import pymysql
 
 db_user= os.environ.get('CLOUD_SQL_USERNAME')
@@ -16,10 +16,11 @@ db_connection_name= os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 app = Flask(__name__)
 @app.route('/', methods=["POST","GET"])
 def index():
-    insert_stmt = ("INSERT INTO user (name, password)""VALUES (%s, %s)")
+    
     if os.environ.get('GAE_ENV') == 'standard':
         host = '172.23.16.3'
         cnx = pymysql.connect(user=db_user, password=db_password, host=host, db=db_name)
+        insert_stmt = ("INSERT INTO user (name, password)""VALUES (%s, %s)")
         if request.method == 'POST':
             name = request.form.get('name')
             password = request.form.get('password')
@@ -50,15 +51,6 @@ def index():
         else:
             return render_template("login.html")
 
-   
-   
-    
-    
-
-    
-
-
-
 @app.route('/home', methods=["POST","GET"])
 def home():
     if os.environ.get('GAE_ENV') == 'standard':
@@ -76,9 +68,9 @@ def home():
                               host=host, db=db_name)
 
     with cnx.cursor() as cursor:
-        cursor.execute('select name from user;')
+        cursor.execute('select * from user;')
         result = cursor.fetchall()
-        current_msg = result[0][0]
+        current_msg = result[0][0][0]
     cnx.close()
 
     return str(current_msg)
