@@ -1,14 +1,13 @@
-FROM python:2
-RUN apt-get update -y
-RUN apt-get install -y python
-RUN apt-get install -y python-pip
 
-WORKDIR /home/sakshi_a_mishra/python-flask
+# syntax=docker/dockerfile:1
 
-COPY requirements.txt ./
+FROM python:3.8-slim-buster
 
-RUN pip install -r requirements.txt
+WORKDIR /app
 
-COPY . /home/sakshi_a_mishra/python-flask/main.py
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
-CMD [ "./main.py" ]
+COPY . .
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
