@@ -3,12 +3,12 @@ RUN apt-get update -y
 RUN apt-get install -y python
 RUN apt-get install -y python-pip
 
-WORKDIR /python/src/python-flask
+WORKDIR /home/sakshi_a_mishra/python-flask
 
 COPY requirements.txt ./
 
 RUN pip install -r requirements.txt
 
-COPY . /python-flask
+COPY . /home/sakshi_a_mishra/python-flask/main.py
 
-CMD [ "./python-flask" ]
+CMD [ "./main.py" ]
