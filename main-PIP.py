@@ -16,11 +16,10 @@ db_connection_name= os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 app = Flask(__name__)
 @app.route('/', methods=["POST","GET"])
 def index():
-    
+     insert_stmt = ("INSERT INTO user (name, password)""VALUES (%s, %s)")
     if os.environ.get('GAE_ENV') == 'standard':
         host = '172.23.16.3'
         cnx = pymysql.connect(user=db_user, password=db_password, host=host, db=db_name)
-        insert_stmt = ("INSERT INTO user (name, password)""VALUES (%s, %s)")
         if request.method == 'POST':
             name = request.form.get('name')
             password = request.form.get('password')
@@ -68,7 +67,7 @@ def home():
                               host=host, db=db_name)
 
     with cnx.cursor() as cursor:
-        cursor.execute('select * from user;')
+        cursor.execute('select name from user;')
         result = cursor.fetchall()
         current_msg = result[0][0][0]
     cnx.close()
@@ -77,4 +76,4 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8081, debug=True)
+    app.run(host='127.0.0.1', port=8080, debug=True)
