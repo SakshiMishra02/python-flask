@@ -1,8 +1,14 @@
 FROM python:2
+RUN apt-get update -y
+RUN apt-get install -y python
+RUN apt-get install -y python-pip
 
-WORKDIR /usr/src/python-flask
+WORKDIR /python/src/python-flask
 
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["./python-flask" ]
+RUN pip install -r requirements.txt
+
+COPY . /python-flask
+
+CMD [ "./python-flask" ]
