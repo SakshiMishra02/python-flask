@@ -68,12 +68,24 @@ def home():
                               host=host, db=db_name)
 
     with cnx.cursor() as cursor:
+
         cursor.execute('select name from user;')
+
         result = cursor.fetchall()
-        current_msg = result[0][0]
+
+        name1=str(result[0][0])
+
+        name2=str(result[1][0])
+
+        name3=str(result[2][0])
+
+        name4=str(result[3][0])
+
+        finalresult=name1+" \n "+name2+" \n  "+name3+" \n "+name4         
+
     cnx.close()
 
-    return str(current_msg)
+    return finalresult
 
 
 if __name__ == '__main__':
