@@ -15,12 +15,11 @@ db_connection_name= os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 app = Flask(__name__)
 @app.route('/', methods=["POST","GET"])
 def index():
-   
+   insert_stmt = ("INSERT INTO user (name, password)""VALUES (%s, %s)")
     if os.environ.get('GAE_ENV') == 'standard':
         # If deployed, use the local socket interface for accessing Cloud SQL
         unix_socket = '/cloudsql/{}'.format(db_connection_name)
-        cnx = pymysql.connect(user=db_user, password=db_password, unix_socket=unix_socket, db=db_name)
-        insert_stmt = ("INSERT INTO user (name, password)""VALUES (%s, %s)")
+        cnx = pymysql.connect(user=db_user, password=db_password, unix_socket=unix_socket, db=db_name)  
         if request.method == 'POST':
             name = request.form.get('name')
             password = request.form.get('password')
@@ -69,13 +68,13 @@ def home():
                               host=host, db=db_name)
 
     with cnx.cursor() as cursor:
-        cursor.execute('select * from user;')
+        cursor.execute('select name from user;')
         result = cursor.fetchall()
-        current_msg = result[0][0][0]
+        current_msg = result[0][0]
     cnx.close()
 
     return str(current_msg)
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8081, debug=True)
+    app.run(host='127.0.0.1', port=8080, debug=True)
