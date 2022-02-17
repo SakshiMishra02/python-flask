@@ -2,8 +2,8 @@
 runtime: python37
 
 env_variables:
-  CLOUD_SQL_USERNAME: surabhi
-  CLOUD_SQL_PASSWORD: 1234
-  CLOUD_SQL_DATABASE_NAME: user-db
-  CLOUD_SQL_CONNECTION_NAME: flaskproject-341104:us-central1:test
+  CLOUD_SQL_USERNAME: sakshimishra
+  CLOUD_SQL_PASSWORD: sakshi
+  CLOUD_SQL_DATABASE_NAME: user
+  CLOUD_SQL_CONNECTION_NAME: project-gcp-340906:asia-south1:sample-form
   
